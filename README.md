@@ -7,7 +7,9 @@
 
 # shtext
 
-Text manipulation in bash
+![pforret/shtext](assets/unsplash.editor.jpg)
+
+Fast text manipulation in bash
 
 ## 🔥 Usage
 
