@@ -1,4 +1,3 @@
-![bash_unit CI](https://github.com/pforret/shtext/workflows/bash_unit%20CI/badge.svg)
 ![Shellcheck CI](https://github.com/pforret/shtext/workflows/Shellcheck%20CI/badge.svg)
 ![GH Language](https://img.shields.io/github/languages/top/pforret/shtext)
 ![GH stars](https://img.shields.io/github/stars/pforret/shtext)
@@ -31,8 +30,9 @@ Flags, options and parameters:
 ## ⚡️ Examples
 
 ```bash
-> shtext .
-# start PhpStorm with current folder as project
+< $largefile.txt shtext lowercase
+< $largefile.csv shtext uppercase
+shtext slugify "Alice va à l'école"
 ```
 
 ## 🚀 Installation
