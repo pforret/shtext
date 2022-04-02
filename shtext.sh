@@ -386,14 +386,10 @@ check_last_version() {
 
 update_script_to_latest() {
   # run in background to avoid problems with modifying a running interpreted script
-    out "Pulling last version ..."
   (
-    sleep 1
     cd "$script_install_folder" && git pull
-    out "Press <enter> to continue ..."
   ) &
-    sleep 1
-    safe_exit
+    sleep 2 && safe_exit
 }
 
 show_tips() {
