@@ -1,4 +1,5 @@
-![Shellcheck CI](https://github.com/pforret/shtext/workflows/Shellcheck%20CI/badge.svg)
+[![Shellcheck CI](https://github.com/pforret/shtext/actions/workflows/shellcheck.yml/badge.svg)](https://github.com/pforret/shtext/actions/workflows/shellcheck.yml)
+[![bash_unit CI](https://github.com/pforret/shtext/actions/workflows/bash_unit.yml/badge.svg)](https://github.com/pforret/shtext/actions/workflows/bash_unit.yml)
 ![GH Language](https://img.shields.io/github/languages/top/pforret/shtext)
 ![GH stars](https://img.shields.io/github/stars/pforret/shtext)
 ![GH tag](https://img.shields.io/github/v/tag/pforret/shtext)
