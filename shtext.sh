@@ -47,7 +47,7 @@ flag|v|verbose|output more
 flag|f|force|do not ask for confirmation (always yes)
 option|l|log_dir|folder for log files |$HOME/log/$script_prefix
 option|t|tmp_dir|folder for temp files|/tmp/$script_prefix
-choice|1|action|text action to perform|lower,upper
+choice|1|action|text action to perform|lower,upper,env,check,update
 " | grep -v '^#' | grep -v '^\s*$'
 }
 
@@ -374,6 +374,7 @@ check_last_version() {
       remote="$(git remote -v | grep fetch | awk 'NR == 1 {print $2}')"
       progress "Check for latest version - $remote"
       git remote update &>/dev/null
+      progress " "
       if [[ $(git rev-list --count "HEAD...HEAD@{upstream}" 2>/dev/null) -gt 0 ]]; then
         out "There is a more recent update of this script - run <<$script_prefix update>> to update"
       fi
@@ -385,10 +386,14 @@ check_last_version() {
 
 update_script_to_latest() {
   # run in background to avoid problems with modifying a running interpreted script
+    out "Pulling last version ..."
   (
     sleep 1
     cd "$script_install_folder" && git pull
+    out "Press <enter> to continue ..."
   ) &
+    sleep 1
+    safe_exit
 }
 
 show_tips() {
