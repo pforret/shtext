@@ -14,28 +14,38 @@ Fast text manipulation in bash
 
 ## 🔥 Usage
 
-```
-Program: shtext 0.0.1 by peter@forret.com
-Updated: 2022-03-29
-Description: Text manipulation in bash
-Usage: normal.sh [-h] [-q] [-v] [-f] [-l <log_dir>] [-t <tmp_dir>] <action> <input?>
+```bash
+Program: shtext 0.1.0 by peter@forret.com
+Updated: Apr  2 22:00:09 2022
+Description: perform fast text/string operations in bash
+Usage: shtext [-h] [-q] [-v] [-f] [-l <log_dir>] [-t <tmp_dir>] <action>
 Flags, options and parameters:
     -h|--help        : [flag] show usage [default: off]
     -q|--quiet       : [flag] no output [default: off]
     -v|--verbose     : [flag] output more [default: off]
     -f|--force       : [flag] do not ask for confirmation (always yes) [default: off]
-    -l|--log_dir <?> : [option] folder for log files   [default: /Users/pforret/log/normal]
-    -t|--tmp_dir <?> : [option] folder for temp files  [default: .tmp]
-    <action>         : [parameter] action to perform: analyze/convert
-    <input>          : [parameter] input file/text (optional)
+    -l|--log_dir <?> : [option] folder for log files   [default: /Users/pforret/log/shtext]
+    -t|--tmp_dir <?> : [option] folder for temp files  [default: /tmp/shtext]
+    <action>         : [choice] text action to perform  [options: lower,upper]
+                                  @github.com:pforret/shtext.git                                             
+### TIPS & EXAMPLES
+* use shtext lower to convert to lowercase
+* use shtext upper to convert to uppercase
+* use shtext check to check if this script is ready to execute and what values the options/flags are
+  shtext check
+* use shtext env to generate an example .env file
+  shtext env > .env
+* use shtext update to update to the latest version
+  shtext check
+* >>> bash script created with pforret/bashew
+* >>> for bash development, also check out pforret/setver and pforret/progressbar
 ```
 
 ## ⚡️ Examples
 
 ```bash
-< $largefile.txt shtext lowercase
-< $largefile.csv shtext uppercase
-shtext slugify "Alice va à l'école"
+< $largefile.txt shtext lower
+<<< "Some Éxtra Text" shtext upper
 ```
 
 ## 🚀 Installation
