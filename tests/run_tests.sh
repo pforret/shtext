@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 script_path=$(dirname "$0")
 script_path=$(cd -P "$script_path" && pwd)
+export LC_ALL="en_US.UTF-8"
+locale
 
-echo "LANG = [$LANG]"
-echo "LC_ALL = [$LC_ALL]"
 if [[ -x "$(command -v bash_unit)" ]] ; then
   ## when bash_unit is installed globally
   cd "$script_path" && bash_unit -f tap test_*
