@@ -15,5 +15,6 @@ else
   file "$0"
   file "$script_path/bash_unit"
   file "$script_path/../shtext.sh"
+  echo "Îñtérñåtìôńāl"
   cd "$script_path" && "$script_path/bash_unit" -f tap test_*
 fi
