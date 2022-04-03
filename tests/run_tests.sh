@@ -2,7 +2,7 @@
 script_path=$(dirname "$0")
 script_path=$(cd -P "$script_path" && pwd)
 export LC_ALL="en_US.UTF-8"
-locale
+# locale
 
 if [[ -x "$(command -v bash_unit)" ]] ; then
   ## when bash_unit is installed globally
