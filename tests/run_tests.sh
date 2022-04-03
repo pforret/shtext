@@ -12,7 +12,8 @@ else
   ## used by Github action or if bash_unit is not installed
   curl -s "https://raw.githubusercontent.com/pgrange/bash_unit/master/bash_unit" -o "$script_path/bash_unit"
   chmod +x "$script_path/bash_unit"
+  file "$0"
   file "$script_path/bash_unit"
-  file "$script_path/../shtext"
+  file "$script_path/../shtext.sh"
   cd "$script_path" && "$script_path/bash_unit" -f tap test_*
 fi
