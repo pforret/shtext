@@ -2,6 +2,8 @@
 script_path=$(dirname "$0")
 script_path=$(cd -P "$script_path" && pwd)
 
+echo "LANG = [$LANG]"
+echo "LG_ALL = [$LG_ALL]"
 if [[ -x "$(command -v bash_unit)" ]] ; then
   ## when bash_unit is installed globally
   cd "$script_path" && bash_unit -f tap test_*
