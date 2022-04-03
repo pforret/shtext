@@ -47,7 +47,7 @@ flag|v|verbose|output more
 flag|f|force|do not ask for confirmation (always yes)
 option|l|log_dir|folder for log files |$HOME/log/$script_prefix
 option|t|tmp_dir|folder for temp files|/tmp/$script_prefix
-choice|1|action|text action to perform|lower,upper,env,check,update
+choice|1|action|text action to perform|lower,upper,trim,env,check,update
 " | grep -v '^#' | grep -v '^\s*$'
 }
 
@@ -68,6 +68,11 @@ main() {
   upper)
     #TIP: use «$script_prefix upper» to convert to uppercase
     awk '{print toupper($0);}'
+    ;;
+
+  trim)
+    #TIP: use «$script_prefix trim» to trim leading and trailing spaces
+    awk '{sub(/^[ \t\r\n]+/, ""); sub(/[ \t\r\n]+$/, ""); print}'
     ;;
 
   check | env)
