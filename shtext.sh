@@ -47,7 +47,7 @@ flag|v|verbose|output more
 flag|f|force|do not ask for confirmation (always yes)
 option|l|log_dir|folder for log files |$HOME/log/$script_prefix
 option|t|tmp_dir|folder for temp files|/tmp/$script_prefix
-choice|1|action|text action to perform|lower,upper,trim,env,check,update
+choice|1|action|text action to perform|alphanum,ascii,lower,slugify,trim,upper,env,check,update
 " | grep -v '^#' | grep -v '^\s*$'
 }
 
@@ -60,23 +60,39 @@ main() {
 
   action=$(lower_case "$action")
   case $action in
-  lower)
-    #TIP: use «$script_prefix lower» to convert to lowercase
-    awk '{print tolower($0);}'
+  alphanum)
+    #TIP: use «$script_prefix alphanum» to remove non-alphanumeric chars and spaces
+    alphanumeric ""
     ;;
 
-  upper)
-    #TIP: use «$script_prefix upper» to convert to uppercase
-    awk '{print toupper($0);}'
+  ascii)
+    #TIP: use «$script_prefix ascii» to convert all accents/diacritics to ASCII alternative
+    transliterate ""
+    ;;
+
+  lower)
+    #TIP: use «$script_prefix lower» to convert to lowercase
+    lower_case ""
+    ;;
+
+  slugify)
+    #TIP: use «$script_prefix slugify» to create a slug that can be used in a URL
+    slugify ""
     ;;
 
   trim)
     #TIP: use «$script_prefix trim» to trim leading and trailing spaces
-    awk '{sub(/^[ \t\r\n]+/, ""); sub(/[ \t\r\n]+$/, ""); print}'
+    trim ""
+    ;;
+
+  upper)
+    #TIP: use «$script_prefix upper» to convert to uppercase
+    upper_case ""
     ;;
 
   check | env)
     ## leave this default action, it will make it easier to test your script
+    #TIP: --- the following are default bashew actions
     #TIP: use «$script_prefix check» to check if this script is ready to execute and what values the options/flags are
     #TIP:> $script_prefix check
     #TIP: use «$script_prefix env» to generate an example .env file
@@ -100,23 +116,6 @@ main() {
   #TIP: >>> for bash development, also check out «pforret/setver» and «pforret/progressbar»
 }
 
-#####################################################################
-## Put your helper scripts here
-#####################################################################
-
-do_lower() {
-  log_to_file "lower"
-  # Examples of required binaries/scripts and how to install them
-  require_binary "convert" "imagemagick"
-  # require_binary "progressbar" "basher install pforret/progressbar"
-  # (code)
-}
-
-do_upper() {
-  log_to_file "upper"
-  # (code)
-
-}
 
 #####################################################################
 ################### DO NOT MODIFY BELOW THIS LINE ###################
@@ -221,7 +220,7 @@ function log_to_file() { [[ -n ${log_file:-} ]] && echo "$(date '+%H:%M:%S') | $
 
 ### string processing
 function lower_case() {
-  if [[ -n "$1" ]] ; then
+  if [[ -n "${1:-}" ]] ; then
     <<< "$*" awk '{print tolower($0)}'
   else
     awk '{print tolower($0)}'
@@ -229,38 +228,68 @@ function lower_case() {
   }
 
 function upper_case() {
-  if [[ -n "$1" ]] ; then
+  if [[ -n "${1:-}" ]] ; then
     <<< "$*" awk '{print toupper($0)}'
   else
     awk '{print toupper($0)}'
   fi
   }
 
+function trim(){
+  if [[ -n "${1:-}" ]] ; then
+    <<< "$*" awk '{sub(/^[ \t\r\n]+/, ""); sub(/[ \t\r\n]+$/, ""); print}'
+  else
+    awk '{sub(/^[ \t\r\n]+/, ""); sub(/[ \t\r\n]+$/, ""); print}'
+  fi
+}
+
+function alphanumeric(){
+  if [[ -n "${1:-}" ]] ; then
+    <<< "$*" awk '{
+          gsub(/[\[\]@#$%^&*;,.:()<>!?\/+=_]/," ",$0);
+          gsub(/^  */,"",$0); gsub(/  *$/,"",$0);
+          gsub(/[^a-zA-Z0-9\- ]/,"");
+          gsub(/\s+/,"-",$0);
+          print;
+          }'
+  else
+    awk '{
+          gsub(/[\[\]@#$%^&*;,.:()<>!?\/+=_]/," ",$0);
+          gsub(/^  */,"",$0); gsub(/  *$/,"",$0);
+          gsub(/[^a-zA-Z0-9\- ]/,"");
+          gsub(/\s+/,"-",$0);
+          print;
+          }'
+  fi
+}
+
 function transliterate() {
-  # remove all characters with accents/diacritics to latin alphabet
-  # shellcheck disable=SC2020
-  tr \
+  if [[ -n "${1:-}" ]] ; then
+    # shellcheck disable=SC2020
+    <<< "$*" tr \
     'àáâäæãåāǎçćčèéêëēėęěîïííīįìǐłñńôöòóœøōǒõßśšûüǔùǖǘǚǜúūÿžźżÀÁÂÄÆÃÅĀǍÇĆČÈÉÊËĒĖĘĚÎÏÍÍĪĮÌǏŁÑŃÔÖÒÓŒØŌǑÕẞŚŠÛÜǓÙǕǗǙǛÚŪŸŽŹŻ' \
     'aaaaaaaaaccceeeeeeeeiiiiiiiilnnooooooooosssuuuuuuuuuuyzzzAAAAAAAAACCCEEEEEEEEIIIIIIIILNNOOOOOOOOOSSSUUUUUUUUUUYZZZ'
+  else
+    # shellcheck disable=SC2020
+    tr \
+    'àáâäæãåāǎçćčèéêëēėęěîïííīįìǐłñńôöòóœøōǒõßśšûüǔùǖǘǚǜúūÿžźżÀÁÂÄÆÃÅĀǍÇĆČÈÉÊËĒĖĘĚÎÏÍÍĪĮÌǏŁÑŃÔÖÒÓŒØŌǑÕẞŚŠÛÜǓÙǕǗǙǛÚŪŸŽŹŻ' \
+    'aaaaaaaaaccceeeeeeeeiiiiiiiilnnooooooooosssuuuuuuuuuuyzzzAAAAAAAAACCCEEEEEEEEIIIIIIIILNNOOOOOOOOOSSSUUUUUUUUUUYZZZ'
+  fi
     }
 
 function slugify() {
   # slugify <input> <separator>
   # slugify "Jack, Jill & Clémence LTD"      => jack-jill-clemence-ltd
   # slugify "Jack, Jill & Clémence LTD" "_"  => jack_jill_clemence_ltd
-  separator="${2:-}"
-  [[ -z "$separator" ]] && separator="-"
+  if [[ -n "${1:-}" ]] ; then
     lower_case "$1" |
-    transliterate |
-    awk '{
-          gsub(/[\[\]@#$%^&*;,.:()<>!?\/+=_]/," ",$0);
-          gsub(/^  */,"",$0);
-          gsub(/  *$/,"",$0);
-          gsub(/  */,"-",$0);
-          gsub(/[^a-z0-9\-]/,"");
-          print;
-          }' |
-    sed "s/-/$separator/g"
+    transliterate "" |
+    alphanumeric ""
+  else
+    lower_case "" |
+    transliterate "" |
+    alphanumeric ""
+  fi
 }
 
 title_case() {

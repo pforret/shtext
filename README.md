@@ -15,8 +15,8 @@ Fast text manipulation in bash
 ## 🔥 Usage
 
 ```bash
-Program: shtext 0.1.0 by peter@forret.com
-Updated: Apr  2 22:00:09 2022
+Program: shtext 0.2.0 by peter@forret.com
+Updated: Apr  3 21:48:10 2022
 Description: perform fast text/string operations in bash
 Usage: shtext [-h] [-q] [-v] [-f] [-l <log_dir>] [-t <tmp_dir>] <action>
 Flags, options and parameters:
@@ -26,11 +26,16 @@ Flags, options and parameters:
     -f|--force       : [flag] do not ask for confirmation (always yes) [default: off]
     -l|--log_dir <?> : [option] folder for log files   [default: /Users/pforret/log/shtext]
     -t|--tmp_dir <?> : [option] folder for temp files  [default: /tmp/shtext]
-    <action>         : [choice] text action to perform  [options: lower,upper]
-                                  @github.com:pforret/shtext.git                                             
+    <action>         : [choice] text action to perform  [options: alphanum,ascii,lower,slugify,trim,upper,env,check,update]
+                                                                                                             
 ### TIPS & EXAMPLES
+* use shtext alphanum to remove non-alphanumeric chars and spaces
+* use shtext ascii to convert all accents/diacritics to ASCII alternative
 * use shtext lower to convert to lowercase
+* use shtext slugify to create a slug that can be used in a URL
+* use shtext trim to trim leading and trailing spaces
 * use shtext upper to convert to uppercase
+* --- the following are default bashew actions
 * use shtext check to check if this script is ready to execute and what values the options/flags are
   shtext check
 * use shtext env to generate an example .env file
@@ -38,7 +43,6 @@ Flags, options and parameters:
 * use shtext update to update to the latest version
   shtext check
 * >>> bash script created with pforret/bashew
-* >>> for bash development, also check out pforret/setver and pforret/progressbar
 ```
 
 ## ⚡️ Examples
