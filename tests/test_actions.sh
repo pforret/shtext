@@ -33,6 +33,7 @@ test_slugify(){
     assert_equals "just-a-test" "$(<<< "  < Just A Tést >   " "$root_script" slugify)"
     assert_equals "consternation-1-2-3-end" "$(<<< "Consternatîôñ    1 2 3      !(){}[]::;^  end" "$root_script" slugify)"
     assert_equals "a-a" "$(<<< "a[!^%&*£+§']a" "$root_script" slugify)"
+    assert_equals "longtemps-je-me-suis-couche-de-bonne-heure" "$(<<< "Longtemps, je me suis couché de bonne heure." "$root_script" slugify)"
 }
 
 test_ascii(){
